@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Indian Recipe Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🍛 Indian Recipe Generator</h1>
+
+<div class="search-filters">
+    <input type="text" id="dish_name" placeholder="What do you want to cook today?">
+    <input type="text" id="ingredients" placeholder="e.g. chicken, onion, garlic">
+
+    <select id="servings">
+        <option value="">Any Servings</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+    </select>
+
+    <select id="cuisine">
+        <option value="">Any Cuisine</option>
+        <option value="South Indian Recipes">South Indian</option>
+        <option value="North Indian Recipes">North Indian</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Continental">Continental</option>
+    </select>
+
+    <select id="course">
+        <option value="">Any Course</option>
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Snack">Snack</option>
+    </select>
+
+    <select id="diet">
+        <option value="">Any Diet</option>
+        <option value="Vegetarian">Vegetarian</option>
+        <option value="Non Vegetarian">Non Vegetarian</option>
+    </select>
+
+    <button onclick="getRecipes()">Get Recipes</button>
+</div>
+
+<div id="results"></div>
+
+<script>
+function getRecipes() {
+    const dish_name = document.getElementById("dish_name").value;
+    const ingredients = document.getElementById("ingredients").value;
+    const servings = document.getElementById("servings").value;
+    const cuisine = document.getElementById("cuisine").value;
+    const course = document.getElementById("course").value;
+    const diet = document.getElementById("diet").value;
+
+    fetch("/get_recipes", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({dish_name, ingredients, servings, cuisine, course, diet})
+    })
+    .then(res => res.json())
+    .then(data => {
+        const results = document.getElementById("results");
+        results.innerHTML = "";
+
+        if (data.length === 0) {
+            results.innerHTML = "<p class='no-result'>No recipes found 😔</p>";
+            return;
+        }
+
+        data.forEach(r => {
+            results.innerHTML += `
+                <div class="recipe-card">
+                    <h2>🍽️ ${r.name}</h2>
+
+                    <div class="recipe-meta">
+                        ⏱ Prep: ${r.prep_time} min | Cook: ${r.cook_time} min | Total: ${r.total_time} min<br>
+                        🍽 Servings: ${r.servings} | 🥘 Cuisine: ${r.cuisine} | 📋 Course: ${r.course} | 🥗 Diet: ${r.diet}
+                    </div>
+
+                    <div class="used-ingredients">
+                        ${ingredients ? `<strong>Ingredients you used:</strong> ${ingredients}<br>` : ''}
+                        <strong>All Ingredients:</strong> ${r.ingredients}
+                    </div>
+
+                    <div class="instructions">
+                        <h4>📋 Cooking Instructions</h4>
+                        <ol>
+                            ${r.instructions
+                              .split(/(?:\. |\n)/)
+                              .filter(step => step.trim())
+                              .map(step => `<li>${step.trim()}</li>`)
+                              .join('')}
+                        </ol>
+                    </div>
+                </div>
+            `;
+        });
+    });
+}
+</script>
+
+</body>
+</html>
