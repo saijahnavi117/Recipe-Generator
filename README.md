@@ -18,23 +18,3 @@ A web application that suggests Indian recipes based on the ingredients you have
 
 ---
 
-## Demo
-
-[**Live Demo Link**](https://your-live-demo-link.com)  
-> Replace with your deployed project link (e.g., hosted on Heroku, Render, or PythonAnywhere)
-
-**Screenshot:**
-
-![App Screenshot](https://raw.githubusercontent.com/yourusername/Indian-Recipe-Generator/main/screenshots/app_screenshot.png)  
-> Replace with your screenshot path if available.
-
----
-
-## Installation
-
-1. **Clone the repository:**
-
-```bash
-git clone https://github.com/yourusername/Indian-Recipe-Generator.git
-
-
