@@ -26,19 +26,21 @@ A **Flask-based web application** that recommends Indian recipes based on user-i
 ```bash
 git clone https://github.com/yourusername/Indian-Recipe-Generator.git
 
-2. **Navigate into the backend folder:**
+Navigate into the backend folder:
 
-```bash
 cd Indian-Recipe-Generator/backend
 
-3. **Install required Python packages:**
 
-```bash
+Install required Python packages:
+
 pip install -r requirements.txt
 
 
-4. **Run the Flask app:**
+Run the Flask app:
 
-```bash
 python app.py
 
+
+Open your browser and go to:
+
+http://127.0.0.1:5000/
